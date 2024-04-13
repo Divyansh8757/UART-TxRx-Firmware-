@@ -9,16 +9,16 @@ step 3. Send a start bit to let MC know that PC is ready to transmit the data an
 step 4. After the desired acknowledgement has been received from the MC, PC then starts transmittint the phrase one character at a time.
 step 5. After the transmission is completed from the PC side, it goes into listening mode.
 step 6. PC send a reception start bit for the MC to know the it is ready to receive the data from MC.
-step 7. After receivig the acknowledgement from the MC, PC start receiving the data one character at a time and prints it on the screen as           it receives.
+step 7. After receivig the acknowledgement from the MC, PC start receiving the data one character at a time and prints it on the screen as it receives.
 step 8. After receiving the complete data from the MC, PC closes the file and the serial terminal.
 
 MC side of the code
 step 1. MC waits for the start bit to initialize the communication with PC.
 step 2. After receiving the start bit from the PC, MC sends an acknowledgement that it is ready and goes into receiving mode.
 step 3. MC receives the data one character at a time, and stores it in the reception buffer.
-step 4. After receiving the complete data from PC, MC waits for the PC to send the reception start bit so that it know PC is ready to                receive.
-step 5. After this MC send and acknowledgement that it is ready to send the data and starts transmitting the received data buffer one                 character at a time.
-step 6. After transmitting the complete data, MC again goes into listening mode to receive data again that can be started by PC with start            bit.
+step 4. After receiving the complete data from PC, MC waits for the PC to send the reception start bit so that it know PC is ready to receive.
+step 5. After this MC send and acknowledgement that it is ready to send the data and starts transmitting the received data buffer one character at a time.
+step 6. After transmitting the complete data, MC again goes into listening mode to receive data again that can be started by PC with start bit.
 
 How I calculated the transfer rate.
 I have used a timer to count to 1 sec, and the number of bytes of data received within that second is actually the transfer rate. 
