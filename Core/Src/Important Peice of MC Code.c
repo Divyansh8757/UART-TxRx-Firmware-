@@ -50,10 +50,54 @@ HAL_TIM_Base_Start(&htim4);
 	  i=0;
 	  j=0;
 	  HAL_UART_Receive(&huart1, rxReq, 1,HAL_MAX_DELAY);  // Wait for transmission request from PC
-	  if(rxReq[0]=='1'){								                  // If request received
+	  if(rxReq[0]=='1'){					 // If request received
 	  	Send_Response();								                  // Send Acknowledgement response
 	  	Receive_Data();								                	  // Function to receive data from PC to MC
 	  } 
 	  Start_Transmission();								                // Funtion To transmit data from MC to PC
   }
+}
+
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart){				// To stop polling while printing transfer rate
+}
+
+
+void Send_Response(){									// Function to send response
+	HAL_UART_Transmit(&huart1, res, 1, 1);
+}
+
+void Receive_Data(){									// Function to Receive data
+	__HAL_TIM_SET_COUNTER(&htim4,0);						// Timer to calculate data rate
+	do{
+		size++;
+		HAL_UART_Receive(&huart1, rxData+i++, 1,HAL_MAX_DELAY);
+		if(__HAL_TIM_GET_COUNTER(&htim4)>=1000000){
+			rate = size;
+			__HAL_TIM_SET_COUNTER(&htim4,0);
+			sprintf(Rate, "Reception Rate : %d Bytes/sec\r\n", rate);
+			HAL_UART_Transmit_IT(&huart4, (uint8_t*)Rate, sizeof(Rate));	// Print data transfer rate every second
+			size=0;
+		}
+	}while(i<1009);
+}
+
+void Start_Transmission(){							// Function to Transmit data
+	__HAL_TIM_SET_COUNTER(&htim4,0);					// Timer to calculate rate
+	 HAL_UART_Receive(&huart1, txReq, 1,HAL_MAX_DELAY);			// receive request from PC
+	 if(txReq[0]=='1'){							// check for receive request from PC
+		Send_Response();						// Send response that Transmission is starting from MC to PC
+	size=0;
+	while(j<=i){
+		size++;
+		HAL_UART_Transmit(&huart1, rxData+j++, 1,HAL_MAX_DELAY);	// Transmitting data from MC to PC
+		if(__HAL_TIM_GET_COUNTER(&htim4)>=1000000){
+			rate = size;
+			__HAL_TIM_SET_COUNTER(&htim4,0);
+			sprintf(Rate, "Transmission Rate : %d Bytes/sec\r\n", rate);
+			HAL_UART_Transmit_IT(&huart4, (uint8_t*)Rate, sizeof(Rate));
+			size=0;
+			}
+		}
+	 }
 }
