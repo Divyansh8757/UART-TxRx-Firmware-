@@ -24,4 +24,5 @@ How I calculated the transfer rate.
 I have used a timer to count to 1 sec, and the number of bytes of data received within that second is actually the transfer rate. 
 
 
-*** I misread the data transmission speed in the assignment statement. I have calculated for Bytes/sec, whereas it should be bits/sec. Apologies for the same. To change the calculations from Bytes/sec to bits/sec, we will have to just multiply the rate by 8. ***
+*** I misread the data transmission speed in the assignment statement. I have calculated for Bytes/sec, whereas it should be bits/sec. 
+Apologies for the same. To change the calculations from Bytes/sec to bits/sec, we will have to just multiply the rate by 8. ***
